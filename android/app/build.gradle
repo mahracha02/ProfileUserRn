@@ -76,6 +76,10 @@ android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
+    
+    buildFeatures {
+        buildConfig = true
+    }
 
     namespace "com.profileuserrn"
     defaultConfig {
@@ -84,6 +88,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [usesCleartextTraffic: "true"]
     }
     signingConfigs {
         debug {
@@ -97,6 +102,10 @@ android {
         debug {
             signingConfig signingConfigs.debug
         }
+        profile {
+            initWith debug
+            matchingFallbacks = ['debug']
+        }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
@@ -104,6 +113,16 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+    }
+
+    // Ajouter le support Java 17 pour Flutter
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
     }
 }
 
@@ -116,4 +135,9 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    // Flutter AARs built from the module
+    debugImplementation 'com.example.user_profile_flutter_module:flutter_debug:1.0'
+    profileImplementation 'com.example.user_profile_flutter_module:flutter_profile:1.0'
+    releaseImplementation 'com.example.user_profile_flutter_module:flutter_release:1.0'
 }

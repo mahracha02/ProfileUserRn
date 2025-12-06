@@ -4,8 +4,8 @@ buildscript {
         minSdkVersion = 24
         compileSdkVersion = 36
         targetSdkVersion = 36
-        ndkVersion = "27.1.12297006"
-        kotlinVersion = "2.1.20"
+        ndkVersion = "27.2.12479018"
+        kotlinVersion = "1.9.25"
     }
     repositories {
         google()
@@ -15,6 +15,21 @@ buildscript {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+    }
+}
+
+// Repositories used by all modules, including the Flutter AARs
+def storageUrl = System.getenv("FLUTTER_STORAGE_BASE_URL") ?: "https://storage.googleapis.com"
+allprojects {
+    repositories {
+        maven {
+            url 'C:/Users/abdel/Desktop/travail2025/Flutter/user_profile_flutter_module/build/host/outputs/repo'
+        }
+        google()
+        mavenCentral()
+        maven {
+            url "${storageUrl}/download.flutter.io"
+        }
     }
 }
 
